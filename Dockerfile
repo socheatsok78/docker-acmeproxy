@@ -3,7 +3,7 @@ ARG S6_OVERLAY_VERSION=v3.2.0.0
 
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
 
-FROM alpine
+FROM alpine:${ALPINE_VERSION}
 RUN apk add --no-cache bash \
         ca-certificates \
         cronie \
