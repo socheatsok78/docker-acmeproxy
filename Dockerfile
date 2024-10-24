@@ -21,5 +21,5 @@ ADD rootfs /
 ENTRYPOINT ["/init-shim"]
 CMD ["/docker-entrypoint.sh"]
 
-VOLUME ["/data"]
+VOLUME ["/home/acmeproxy/.acme.sh", "/data"]
 EXPOSE 9443
