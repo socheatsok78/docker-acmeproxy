@@ -1,3 +1,5 @@
 #!/bin/bash
-chown -R acmeproxy:acmeproxy /home/acmeproxy/.acme.sh
-chown -R acmeproxy:acmeproxy /data
+set -e
+chown -R acmeproxy:acmeproxy \
+    /home/acmeproxy/.acme.sh \
+    /data
