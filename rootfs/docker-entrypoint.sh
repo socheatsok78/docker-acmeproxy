@@ -62,4 +62,4 @@ else
     entrypoint_log "$0: No files found in /docker-entrypoint.d/, skipping configuration"
 fi
 
-perl /app/acmeproxy.pl
+exec s6-setuidgid acmeproxy perl /acmeproxy.pl

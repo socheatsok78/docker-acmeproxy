@@ -1,9 +1,0 @@
-bash
-ca-certificates
-cron
-curl
-libcrypt-bcrypt-perl
-libio-socket-ssl-perl
-libmojolicious-perl
-socat
-xz-utils

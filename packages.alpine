@@ -1,0 +1,10 @@
+bash
+ca-certificates
+cronie
+curl
+openssl
+perl-crypt-bcrypt
+perl-io-socket-ssl
+perl-mojolicious
+socat
+xz

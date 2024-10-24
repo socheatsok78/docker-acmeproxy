@@ -15,7 +15,7 @@ file_env ACMEPROXY_DEFAULT_PASS acmeproxy
 ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_HOSTNAME}}
 ACME_SERVER=${ACME_SERVER:-letsencrypt}
 ACME_CONFIG_HOME=${ACME_CONFIG_HOME:-/data}
-ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-dns_cf}
+ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-please_edit_your_configfile}
 
 cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
 {
@@ -90,3 +90,4 @@ EOF
 
 echo "Configuration written to ${ACMEPROXY_CONFIG_PATH}"
 chmod 0600 ${ACMEPROXY_CONFIG_PATH}
+chown acmeproxy:acmeproxy ${ACMEPROXY_CONFIG_PATH}

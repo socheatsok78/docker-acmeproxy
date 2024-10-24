@@ -1,10 +1,7 @@
-target "acmeproxy" {
-    context = "https://github.com/madcamel/acmeproxy.pl.git"
-    dockerfile = "Dockerfile"
-}
+target "default" {}
 
-target "default" {
+target "dev" {
     tags = [
-        "acmeproxy:dev"
+        "socheatsok78/acmeproxy:dev"
     ]
 }
