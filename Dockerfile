@@ -1,6 +1,6 @@
 ARG ALPINE_VERSION=latest
 ARG S6_OVERLAY_VERSION=v3.2.0.0
-ARG ACMEPROXY_VERSION=main
+ARG ACMEPROXY_VERSION=refs/heads/main
 
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
 
@@ -22,7 +22,7 @@ WORKDIR /home/acmeproxy
 
 ARG ACMEPROXY_VERSION
 ENV ACMEPROXY_VERSION=${ACMEPROXY_VERSION}
-ADD https://raw.githubusercontent.com/socheatsok78/acmeproxy.pl/refs/heads/${ACMEPROXY_VERSION}/acmeproxy.pl /acmeproxy.pl
+ADD https://raw.githubusercontent.com/socheatsok78/acmeproxy.pl/${ACMEPROXY_VERSION}/acmeproxy.pl /acmeproxy.pl
 ADD https://raw.githubusercontent.com/socheatsok78/s6-overlay-installer/refs/heads/main/hacks/init-shim /init-shim
 RUN chmod +x /init-shim && \
     chmod 644 /acmeproxy.pl
