@@ -13,6 +13,7 @@ target "default" {
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
+        ACMEPROXY_VERSION = "${ACMEPROXY_VERSION}"
     }
     platforms = [
         "linux/amd64",
@@ -28,6 +29,7 @@ target "dev" {
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
+        ACMEPROXY_VERSION = "${ACMEPROXY_VERSION}"
     }
     tags = [
         "socheatsok78/acmeproxy:dev"
