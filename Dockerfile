@@ -4,8 +4,16 @@ ARG S6_OVERLAY_VERSION=v3.2.0.0
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
 
 FROM alpine
-RUN --mount=type=bind,source=packages.alpine,target=/tmp/packages.alpine \
-    apk add --no-cache $(cat /tmp/packages.alpine)
+RUN apk add --no-cache bash \
+        ca-certificates \
+        cronie \
+        curl \
+        openssl \
+        perl-crypt-bcrypt \
+        perl-io-socket-ssl \
+        perl-mojolicious \
+        socat \
+        xz
 RUN addgroup acmeproxy && \
     adduser -D -G acmeproxy acmeproxy
 ENV HOME=/home/acmeproxy
