@@ -1,0 +1,3 @@
+# https://github.com/acmesh-official/acme.sh/blob/master/dnsapi/dns_aws.sh
+file_env AWS_ACCESS_KEY_ID
+file_env AWS_SECRET_ACCESS_KEY

@@ -1,0 +1,2 @@
+# https://github.com/acmesh-official/acme.sh/blob/master/dnsapi/dns_dgon.sh
+file_env DO_API_KEY

@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -e
+
+ACMEPROXY_CONFIG_PATH=${HOME}/acmeproxy.pl.conf
+
+if [ -f "${ACMEPROXY_CONFIG_PATH}" ]; then
+    echo "Configuration file ${ACMEPROXY_CONFIG_PATH} already exists. Skipping configuration."
+    exit 0
+fi
+
+ACMEPROXY_SERVER_HOSTNAME=${ACMEPROXY_SERVER_HOSTNAME:-${HOSTNAME}}
+file_env ACMEPROXY_DEFAULT_USER acmeproxy
+file_env ACMEPROXY_DEFAULT_PASS acmeproxy
+
+ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_HOSTNAME}}
+ACME_SERVER=${ACME_SERVER:-letsencrypt}
+ACME_CONFIG_HOME=${ACME_CONFIG_HOME:-/data}
+ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-dns_cf}
+
+cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
+{
+    # acmeproxy.pl example configuration
+    # This configuration file is in perl format.
+    # It is unfortunate that perl JSON does not support comments
+
+    # Extra params to be passed to acme.sh --install
+    acmesh_extra_params_install => [
+        '--config-home ${ACME_CONFIG_HOME}',
+    ],
+
+    # Extra params to be passed to acme.sh --install-cert
+    acmesh_extra_params_install_cert => [
+        '--config-home ${ACME_CONFIG_HOME}',
+    ],
+
+    # Extra params to be passed to acme.sh --issue
+    # https://github.com/acmesh-official/acme.sh/wiki/Server
+    acmesh_extra_params_issue => [
+        '--config-home ${ACME_CONFIG_HOME}',
+        '--server ${ACME_SERVER}',
+    ],
+
+    # The directory in which to store acmeproxy.pl.crt and acmeproxy.pl.key
+    # If this is left unspecified, it defaults to: "$ENV{'HOME'}/.acme.sh"
+    keypair_directory => '${ACME_CONFIG_HOME}',
+
+    # Email address for acme.sh certificate issuance and expiration notification
+    # Required for Let's Encrypt and ZeroSSL
+    email => '${ACME_EMAIL}',
+
+    # Which acme.sh DNS provider do we use?
+    # See https://github.com/acmesh-official/acme.sh/wiki/dnsapi
+    dns_provider => '${ACME_DNS_PROVIDER}',
+    
+    # Environment variables for the above acme.sh DNS provider
+    # env => {},
+        
+    # This is the 'common' hostname of the machine where acmeproxy.pl is running.
+    # acmeproxy.pl will generate a TLS certificate for this hostname.
+    # acme.sh clients will then access acmeproxy.pl using this hostname
+    # via https://<hostname>
+    # Note that you can specify multiple hostnames if they're separated by spaces.
+    hostname => '${ACMEPROXY_SERVER_HOSTNAME}',
+    
+    # Hostname and port to listen on. * means all ipv4/ipv6 addresses
+    bind => '*:9443',
+    
+    # Authentication list. This contains the ACMEPROXY_USER/ACMEPROXY_PASS pairs
+    # required to access acmeproxy.pl. Each user record is associated with a
+    # specific authorized hostname. Subdomains of this hostname are also allowed.
+    #
+    # Passwords stored in this file can either be in plain text, or hashed with bcrypt.
+    # If you chose to use bcrypted passwords, you must have the Crypt::Bcrypt module
+    # installed. If Crypt::Bcrypt is installed but some users are using plain text
+    # passwords, a warning will be printed on startup. You can safely ignore this if
+    # you like.
+    #
+    # If a user has a plain text password as well as a hashed password, and the
+    # Crypt::Bcrypt module is installed, ONLY the hashed password will be checked!
+    'auth' => [
+        # Default credentials for all hostnames
+        {
+            'user' => '${ACMEPROXY_DEFAULT_USER}',
+            'pass' => '${ACMEPROXY_DEFAULT_PASS}',
+            'host' => '*',
+        },
+    ],
+}
+EOF
+
+echo "Configuration written to ${ACMEPROXY_CONFIG_PATH}"
+chmod 0600 ${ACMEPROXY_CONFIG_PATH}

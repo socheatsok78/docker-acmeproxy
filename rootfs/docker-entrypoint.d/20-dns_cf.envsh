@@ -1,0 +1,6 @@
+# https://github.com/acmesh-official/acme.sh/blob/master/dnsapi/dns_cf.sh
+file_env CF_Token
+file_env CF_Account_ID
+file_env CF_Zone_ID
+file_env CF_Key
+file_env CF_Email
