@@ -55,11 +55,11 @@ services:
       CF_Token: TOKEN-abcdefghijklmnopqrstuvwxyz
     hostname: acmeproxy.fqdn.domain
     volumes:
-      - data:/data:rw
-      - cache:/home/acmeproxy/.acme.sh:rw # optional
+      - acmeproxy-data:/data:rw
+      - acmeproxy-cache:/home/acmeproxy/.acme.sh:rw # optional
 volumes:
-  data:
-  cache: # optional
+  acmeproxy-data:
+  acmeproxy-cache: # optional
 ```
 
 ## Environment Variables
