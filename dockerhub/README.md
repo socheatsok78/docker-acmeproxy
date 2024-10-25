@@ -66,7 +66,12 @@ volumes:
 
 The following environment variables are available:
 
-> WIP
+- `ACMEPROXY_ENDPOINT` - The hostname of the ACME Proxy server. If not set, the container will use the hostname of the container.
+- `ACMEPROXY_USERNAME` - The default user for the ACME Proxy server. Default is `acmeproxy`.
+- `ACMEPROXY_PASSWORD` - The default password for the ACME Proxy server. Default is `acmeproxy`.
+- `ACME_EMAIL` - The email address for the ACME Proxy server.
+- `ACME_ISSUER` - The ACME issuer to use. Default is `letsencrypt`.
+- `ACME_DNS_PROVIDER` - The DNS provider to use for the ACME challenge.
 
 ## License
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+ACME_CONFIG_HOME=/data
 ACMEPROXY_CONFIG_PATH=${HOME}/acmeproxy.pl.conf
 
 if [ -f "${ACMEPROXY_CONFIG_PATH}" ]; then
@@ -8,13 +9,12 @@ if [ -f "${ACMEPROXY_CONFIG_PATH}" ]; then
     exit 0
 fi
 
-ACMEPROXY_SERVER_HOSTNAME=${ACMEPROXY_SERVER_HOSTNAME:-${HOSTNAME}}
-file_env ACMEPROXY_DEFAULT_USER acmeproxy
-file_env ACMEPROXY_DEFAULT_PASS acmeproxy
+ACMEPROXY_ENDPOINT=${ACMEPROXY_ENDPOINT:-${HOSTNAME}}
+file_env ACMEPROXY_USERNAME acmeproxy
+file_env ACMEPROXY_PASSWORD acmeproxy
 
-ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_HOSTNAME}}
-ACME_SERVER=${ACME_SERVER:-letsencrypt}
-ACME_CONFIG_HOME=${ACME_CONFIG_HOME:-/data}
+ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_ENDPOINT}}
+ACME_ISSUER=${ACME_ISSUER:-letsencrypt}
 ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-please_edit_your_configfile}
 
 cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
@@ -37,7 +37,7 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     # https://github.com/acmesh-official/acme.sh/wiki/Server
     acmesh_extra_params_issue => [
         '--config-home ${ACME_CONFIG_HOME}',
-        '--server ${ACME_SERVER}',
+        '--server ${ACME_ISSUER}',
     ],
 
     # The directory in which to store acmeproxy.pl.crt and acmeproxy.pl.key
@@ -60,7 +60,7 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     # acme.sh clients will then access acmeproxy.pl using this hostname
     # via https://<hostname>
     # Note that you can specify multiple hostnames if they're separated by spaces.
-    hostname => '${ACMEPROXY_SERVER_HOSTNAME}',
+    hostname => '${ACMEPROXY_ENDPOINT}',
     
     # Hostname and port to listen on. * means all ipv4/ipv6 addresses
     bind => '*:9443',
@@ -80,8 +80,8 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     'auth' => [
         # Default credentials for all hostnames
         {
-            'user' => '${ACMEPROXY_DEFAULT_USER}',
-            'pass' => '${ACMEPROXY_DEFAULT_PASS}',
+            'user' => '${ACMEPROXY_USERNAME}',
+            'pass' => '${ACMEPROXY_PASSWORD}',
             'host' => '*',
         },
     ],
