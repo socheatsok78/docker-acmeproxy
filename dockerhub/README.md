@@ -49,7 +49,7 @@ services:
   acmeproxy:
     image: socheatsok78/acmeproxy:3.20
     environment:
-      ACME_SERVER: letsencrypt_test
+      ACME_ISSUER: letsencrypt_test
       ACME_DNS_PROVIDER: dns_cf
       CF_Zone_ID: abcdefghijklmnopqrstuvwxyz
       CF_Token: TOKEN-abcdefghijklmnopqrstuvwxyz
@@ -72,6 +72,12 @@ The following environment variables are available:
 - `ACME_EMAIL` - The email address for the ACME Proxy server.
 - `ACME_ISSUER` - The ACME issuer to use. Default is `letsencrypt`.
 - `ACME_DNS_PROVIDER` - The DNS provider to use for the ACME challenge.
+
+## Security Notes
+
+The [madcamel/acmeproxy.pl](https://github.com/madcamel/acmeproxy.pl) was written to be run within an internal network. It's not recommended to expose your acmeproxy host to the outside world.
+
+Use of this certificate scheme will expose your internal network's hostnames via the certificate signer's public certificate transparency logs. If you're not comfortable with that, it is recommended not to use this approach. Please note that this is not a failing in acmeproxy.pl, but rather a characteristic of how public certificate authorities operate.
 
 ## License
 
