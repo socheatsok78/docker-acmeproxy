@@ -18,9 +18,9 @@ ACME DNS challenge proxy container of [madcamel/acmeproxy.pl](https://github.com
 Following platforms for this image are available:
 
 ```bash
-$ docker run --rm mplatform/mquery socheatsok78/acmeproxy:edge
+$ docker run --rm mplatform/mquery socheatsok78/acmeproxy:latest
 
-# Image: socheatsok78/acmeproxy:edge
+# Image: socheatsok78/acmeproxy:latest
 #  * Manifest List: Yes (Image type: application/vnd.oci.image.index.v1+json)
 #  * Supported platforms:
 #    - linux/amd64
@@ -32,6 +32,7 @@ $ docker run --rm mplatform/mquery socheatsok78/acmeproxy:edge
 The release versioning scheme is based on **Alpine** releases, and it will follow the same versioning as the base image. The build matrix is generated using [`actions-matrix/alpine-matrix-action`](https://github.com/marketplace/actions/alpine-matrix-action) action.
 
 Currently, the following versions are available:
+- `latest`
 - `edge`
 - `3.20`
 - `3.19`
