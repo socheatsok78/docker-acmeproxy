@@ -40,6 +40,9 @@ Currently, the following versions are available:
 > [!IMPORTANT]
 > The release is automated on a weekly basis, and if there is a new version of the base image, the release will build and push the new version following the base image version.
 
+> [!IMPORTANT]
+> The version of [madcamel/acmeproxy.pl] will be updated to the latest version available on the master branch and does not dictate by the base image version.
+
 ## Usage
 
 Here a simple example of how to use this image:
@@ -83,10 +86,12 @@ The following environment variables are available:
 
 ## Security Notes
 
-The [madcamel/acmeproxy.pl](https://github.com/madcamel/acmeproxy.pl) was written to be run within an internal network. It's not recommended to expose your acmeproxy host to the outside world.
+The [madcamel/acmeproxy.pl] was written to be run within an internal network. It's not recommended to expose your acmeproxy host to the outside world.
 
 Use of this certificate scheme will expose your internal network's hostnames via the certificate signer's public certificate transparency logs. If you're not comfortable with that, it is recommended not to use this approach. Please note that this is not a failing in acmeproxy.pl, but rather a characteristic of how public certificate authorities operate.
 
 ## License
 
 Licensed under the [MIT License](./LICENSE).
+
+[madcamel/acmeproxy.pl]: https://github.com/madcamel/acmeproxy.pl
