@@ -9,11 +9,11 @@ if [ -f "${ACMEPROXY_CONFIG_PATH}" ]; then
     exit 0
 fi
 
-ACMEPROXY_ENDPOINT=${ACMEPROXY_ENDPOINT:-${HOSTNAME}}
-file_env ACMEPROXY_USERNAME acmeproxy
-file_env ACMEPROXY_PASSWORD acmeproxy
+ACMEPROXY_SERVER_ENDPOINT=${ACMEPROXY_SERVER_ENDPOINT:-${ACMEPROXY_ENDPOINT:-${HOSTNAME}}}
+file_env ACMEPROXY_SERVER_USERNAME acmeproxy
+file_env ACMEPROXY_SERVER_PASSWORD acmeproxy
 
-ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_ENDPOINT}}
+ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_ENDPOINT}}
 ACME_ISSUER=${ACME_ISSUER:-letsencrypt}
 ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-please_edit_your_configfile}
 
@@ -60,7 +60,7 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     # acme.sh clients will then access acmeproxy.pl using this hostname
     # via https://<hostname>
     # Note that you can specify multiple hostnames if they're separated by spaces.
-    hostname => '${ACMEPROXY_ENDPOINT}',
+    hostname => '${ACMEPROXY_SERVER_ENDPOINT}',
     
     # Hostname and port to listen on. * means all ipv4/ipv6 addresses
     bind => '*:9443',
@@ -80,8 +80,8 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     'auth' => [
         # Default credentials for all hostnames
         {
-            'user' => '${ACMEPROXY_USERNAME}',
-            'pass' => '${ACMEPROXY_PASSWORD}',
+            'user' => '${ACMEPROXY_SERVER_USERNAME}',
+            'pass' => '${ACMEPROXY_SERVER_PASSWORD}',
             'host' => '*',
         },
     ],
