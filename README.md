@@ -49,7 +49,7 @@ services:
   acmeproxy:
     image: socheatsok78/acmeproxy:3.20
     environment:
-      ACME_ISSUER: letsencrypt_test
+      ACME_SERVER: letsencrypt_test
       ACME_DNS_PROVIDER: dns_cf
       CF_Zone_ID: abcdefghijklmnopqrstuvwxyz
       CF_Token: TOKEN-abcdefghijklmnopqrstuvwxyz
@@ -62,15 +62,20 @@ volumes:
   acmeproxy-cache: # optional
 ```
 
-## Environment Variables
+## Configure ACME Proxy Server
 
 The following environment variables are available:
 
 - `ACMEPROXY_SERVER_ENDPOINT` - The hostname of the ACME Proxy server. If not set, the container will use the hostname of the container.
 - `ACMEPROXY_SERVER_USERNAME` - The default user for the ACME Proxy server. Default is `acmeproxy`.
 - `ACMEPROXY_SERVER_PASSWORD` - The default password for the ACME Proxy server. Default is `acmeproxy`.
+
+## Configure ACME Client used by ACME Proxy Server
+
+The following environment variables are available:
+
 - `ACME_EMAIL` - The email address for the ACME Proxy server.
-- `ACME_ISSUER` - The ACME issuer to use. Default is `letsencrypt`.
+- `ACME_SERVER` - The ACME issuer to use. Default is `letsencrypt`.
 - `ACME_DNS_PROVIDER` - The DNS provider to use for the ACME challenge.
 
 ## Security Notes

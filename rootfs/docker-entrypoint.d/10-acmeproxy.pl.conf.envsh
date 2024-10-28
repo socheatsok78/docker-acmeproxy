@@ -14,7 +14,7 @@ file_env ACMEPROXY_SERVER_USERNAME acmeproxy
 file_env ACMEPROXY_SERVER_PASSWORD acmeproxy
 
 ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_ENDPOINT}}
-ACME_ISSUER=${ACME_ISSUER:-letsencrypt}
+ACME_SERVER=${ACME_SERVER:-letsencrypt}
 ACME_DNS_PROVIDER=${ACME_DNS_PROVIDER:-please_edit_your_configfile}
 
 cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
@@ -37,7 +37,7 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
     # https://github.com/acmesh-official/acme.sh/wiki/Server
     acmesh_extra_params_issue => [
         '--config-home ${ACME_CONFIG_HOME}',
-        '--server ${ACME_ISSUER}',
+        '--server ${ACME_SERVER}',
     ],
 
     # The directory in which to store acmeproxy.pl.crt and acmeproxy.pl.key
