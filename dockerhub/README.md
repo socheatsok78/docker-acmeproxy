@@ -78,6 +78,9 @@ The following environment variables are available:
 - `ACME_SERVER` - The ACME issuer to use. Default is `letsencrypt`.
 - `ACME_DNS_PROVIDER` - The DNS provider to use for the ACME challenge.
 
+> [!NOTE]
+> A list of server can be found here [acmesh-official/acme.sh/wiki/Server](https://github.com/acmesh-official/acme.sh/wiki/Server) and supported DNS providers here [acmesh-official/acme.sh/wiki/dnsapi](https://github.com/acmesh-official/acme.sh/wiki/dnsapi).
+
 ## Security Notes
 
 The [madcamel/acmeproxy.pl](https://github.com/madcamel/acmeproxy.pl) was written to be run within an internal network. It's not recommended to expose your acmeproxy host to the outside world.
