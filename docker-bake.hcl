@@ -1,6 +1,6 @@
 variable "ALPINE_VERSION" { default = "latest" }
 variable "S6_OVERLAY_VERSION" { default = "v3.2.0.2" }
-variable "ACMEPROXY_VERSION" { default = "9d6b5c0a8471ba37dc91da0cebbfc4b3d6081c9e" }
+variable "ACMEPROXY_VERSION" { default = "a7e5a62e79b2ddc8aa110d08934f6ed4b14a30c7" }
 
 target "docker-metadata-action" {}
 target "github-metadata-action" {}
