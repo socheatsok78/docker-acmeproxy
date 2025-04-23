@@ -4,8 +4,13 @@ ARG ACMEPROXY_VERSION=refs/heads/main
 
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
 
+FROM alpine:${ALPINE_VERSION} AS htpasswd
+RUN apk add --no-cache bash apache2-utils
+
 FROM alpine:${ALPINE_VERSION}
 RUN apk add --no-cache bash \
+        apr \
+        apr-util \
         ca-certificates \
         cronie \
         curl \
@@ -15,6 +20,8 @@ RUN apk add --no-cache bash \
         perl-mojolicious \
         socat \
         xz
+COPY --from=htpasswd --link /usr/bin/htpasswd /usr/bin/htpasswd
+
 RUN addgroup acmeproxy && \
     adduser -D -G acmeproxy acmeproxy
 ENV HOME=/home/acmeproxy

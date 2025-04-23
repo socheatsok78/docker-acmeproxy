@@ -73,6 +73,15 @@ The following environment variables are available:
 - `ACMEPROXY_SERVER_USERNAME` - The default user for the ACME Proxy server. Default is `acmeproxy`.
 - `ACMEPROXY_SERVER_PASSWORD` - The default password for the ACME Proxy server. Default is `acmeproxy`.
 
+> [!NOTE]
+> The default value of `ACMEPROXY_SERVER_PASSWORD` is a plaintext password. It is recommended to change it to a strong password using Bcrypt.
+>
+> You can use tool like [CyberChef](https://gchq.github.io/CyberChef/#recipe=Bcrypt(12)) or [htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) to generate a Bcrypt password.  
+> **Example**:
+> ```bash
+> $ htpasswd -nB acmeproxy
+> ```
+
 ## Configure ACME Client used by ACME Proxy Server
 
 The following environment variables are available:
