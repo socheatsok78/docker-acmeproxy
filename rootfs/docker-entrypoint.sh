@@ -8,26 +8,19 @@ entrypoint_log() {
     fi
 }
 
-# usage: file_env VAR [DEFAULT]
-#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
-# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
-#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
-file_env() {
-	local var="$1"
-	local fileVar="${var}_FILE"
-	local def="${2:-}"
-	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
-		mysql_error "Both $var and $fileVar are set (but are exclusive)"
-	fi
-	local val="$def"
-	if [ "${!var:-}" ]; then
-		val="${!var}"
-	elif [ "${!fileVar:-}" ]; then
-		val="$(< "${!fileVar}")"
-	fi
-	export "$var"="$val"
-	unset "$fileVar"
-}
+# Convert all environment variables with names ending in __FILE into the content of
+# the file that they point at and use the name without the trailing __FILE.
+# This can be used to carry in Docker secrets.
+for VAR_NAME in $(env | grep '^[^=]\+__FILE=.\+' | sed -r "s/([^=]*)__FILE=.*/\1/g"); do
+    VAR_NAME_FILE="$VAR_NAME"__FILE
+    if [ "${!VAR_NAME}" ]; then
+        echo >&2 "ERROR: Both $VAR_NAME and $VAR_NAME_FILE are set (but are exclusive)"
+        exit 1
+    fi
+    echo "Getting secret $VAR_NAME from ${!VAR_NAME_FILE}"
+    export "$VAR_NAME"="$(< "${!VAR_NAME_FILE}")"
+    unset "$VAR_NAME_FILE"
+done
 
 if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -maxdepth 1 -type f -print -quit 2>/dev/null | read v; then
     entrypoint_log "$0: /docker-entrypoint.d/ is not empty, will attempt to perform configuration"
