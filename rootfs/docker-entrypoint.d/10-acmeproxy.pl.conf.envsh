@@ -10,8 +10,14 @@ if [ -f "${ACMEPROXY_CONFIG_PATH}" ]; then
 fi
 
 ACMEPROXY_SERVER_ENDPOINT=${ACMEPROXY_SERVER_ENDPOINT:-${ACMEPROXY_ENDPOINT:-${HOSTNAME}}}
-file_env ACMEPROXY_SERVER_USERNAME acmeproxy
-file_env ACMEPROXY_SERVER_PASSWORD acmeproxy
+
+# Set default values for ACMEPROXY_SERVER_USERNAME and ACMEPROXY_SERVER_PASSWORD
+# if they are not specified in the environment
+ACMEPROXY_SERVER_USERNAME=${ACMEPROXY_SERVER_USERNAME:-acmeproxy}
+ACMEPROXY_SERVER_PASSWORD=${ACMEPROXY_SERVER_PASSWORD:-acmeproxy}
+
+# Generate a bcrypt hash of the password
+ACMEPROXY_SERVER_PASSWORD_HASH=$(htpasswd -nbB ${ACMEPROXY_SERVER_USERNAME} ${ACMEPROXY_SERVER_PASSWORD} | cut -d ":" -f2)
 
 ACME_EMAIL=${ACME_EMAIL:-acme@${ACMEPROXY_SERVER_ENDPOINT}}
 ACME_SERVER=${ACME_SERVER:-letsencrypt}
@@ -81,7 +87,7 @@ cat <<EOF > ${ACMEPROXY_CONFIG_PATH}
         # Default credentials for all hostnames
         {
             'user' => '${ACMEPROXY_SERVER_USERNAME}',
-            'pass' => '${ACMEPROXY_SERVER_PASSWORD}',
+            'hash' => '${ACMEPROXY_SERVER_PASSWORD_HASH}',
             'host' => '*',
         },
     ],
