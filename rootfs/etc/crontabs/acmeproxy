@@ -1,0 +1,1 @@
+00 00 * * * "/home/acmeproxy/.acme.sh"/acme.sh --cron --home "/home/acmeproxy/.acme.sh" --config-home "/data" > /dev/null

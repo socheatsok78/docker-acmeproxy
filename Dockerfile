@@ -14,6 +14,7 @@ RUN apk add --no-cache bash \
         ca-certificates \
         cronie \
         curl \
+        nano \
         openssl \
         perl-crypt-bcrypt \
         perl-io-socket-ssl \
@@ -27,17 +28,20 @@ RUN addgroup acmeproxy && \
 ENV HOME=/home/acmeproxy
 WORKDIR /home/acmeproxy
 
+# Fix crontab
+RUN mkdir -p /home/acmeproxy/.cache
+
 ARG ACMEPROXY_VERSION
 ENV ACMEPROXY_VERSION=${ACMEPROXY_VERSION}
 ADD https://raw.githubusercontent.com/socheatsok78/acmeproxy.pl/${ACMEPROXY_VERSION}/acmeproxy.pl /acmeproxy.pl
 ADD https://raw.githubusercontent.com/socheatsok78/s6-overlay-installer/refs/heads/main/hacks/init-shim /init-shim
 RUN chmod +x /init-shim && \
-    chmod 644 /acmeproxy.pl
+    chmod 755 /acmeproxy.pl
 
 COPY --link --from=s6-overlay / /
 ADD rootfs /
 ENTRYPOINT ["/init-shim"]
 CMD ["/docker-entrypoint.sh"]
 
-VOLUME ["/home/acmeproxy/.acme.sh", "/data"]
+VOLUME [ "/data" ]
 EXPOSE 9443
